@@ -1,176 +1,104 @@
 <template>
-    <v-container>
-        <v-row>
-            <v-col cols="2"></v-col>
-            <v-col cols="8">
-                <v-card>
-                    <v-container grid-list-md mb-0>
-                        <h1 class="text-md-center">PROFILE</h1> 
-                        <v-flex xs3> 
-                            <v-btn absolute right depressed dark rounded color="primary" @click="editHandler">
-                                <v-icon size="20" class="text-md-center">mdi-pencil</v-icon>
-                                Update Profile
-                            </v-btn>
-                        </v-flex>
-                        <v-row>
-                            <v-col cols="2"></v-col>
-                            <v-col cols="8">
-                                <v-row justify="space-between">
-                                    <v-col cols="2"></v-col>
-                                    <v-col cols="4">
-                                        <v-img
-                                            height="200"
-                                            width="200"
-                                            src="https://cdn3.iconfinder.com/data/icons/business-avatar-1/512/3_avatar-512.png"
-                                        ></v-img>
-                                    </v-col>
-                                    <v-col
-                                        cols="4"
-                                        class="pl-0">
-                    
-                                        <v-row
-                                            class="flex-column ma-0 fill-height" justify="center">
-                                            <v-col class="px-0">
-                                                <h3>Full Name : {{ profile.first_name + " " + profile.last_name}}</h3>
-                                            </v-col>
+<v-container> 
+  <v-row dense>
+    <v-col :cols="3"/>
+    <v-col
+    :cols="2">
+        <v-select
+          :items="items"
+          label="Locations"
+          dense
+          outlined
+          single-line
+          
+        ></v-select>
+    </v-col>
+    <v-col
+    :cols="4">
+      <v-text-field
+            label="Search Property..."
+            dense
+            outlined
+            prepend-inner-icon="mdi-magnify"
+            single-line
+            
+          ></v-text-field>
+    </v-col>
+    <v-col :cols="3"/>
+    <v-col
+    :cols="1">
+        <p class="text-left headline">Favorites</p>
+    </v-col>
+    <v-col
+    :cols="11">
+      <template>
+        <v-progress-linear value="100" style="margin-top:2%" ></v-progress-linear>
+      </template>
+    </v-col>
+    <v-col :cols="3"/>
+    <v-col :cols="6">
+        <v-btn-toggle
+          v-model="icon"
+        
+        >
+          <v-btn value="left">
+            Housing
+          </v-btn>
 
-                                            <v-col class="px-0">
-                                                <h3>Contact : {{ profile.phone_number }}</h3>
-                                            </v-col>
+          <v-btn value="center">
+            Appartement
+          </v-btn>
 
-                                            <v-col class="px-0">
-                                                <h3>Location : {{ profile.address + ", " + profile.city + ", " + profile.province}}</h3>
-                                            </v-col>
-                                        </v-row>
-                                    </v-col>
-                                    <v-col cols="2"></v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col cols="2"></v-col>
-                                    <v-col cols="8">
-                                        <v-card-text>
-                                            <h3>First Name : {{ profile.first_name }}</h3>
-                                            <h3>Last Name : {{ profile.last_name }}</h3>
-                                            <h3 v-if="profile.gender === '0'">Gender : Male</h3>
-                                            <h3 v-else-if="profile.gender === '1'">Gender : Female</h3>
-                                            <h3>Address : {{ profile.address }}</h3>
-                                            <h3>City : {{ profile.city }}</h3>
-                                            <h3>Province : {{ profile.province }}</h3>
-                                            <h3>Birth Date : {{ profile.birth_date }}</h3>
-                                            <h3>Phone Number : {{ profile.phone_number }}</h3>
-                                        </v-card-text>
-                                    </v-col>
-                                    <v-col cols="2"></v-col>
-                                </v-row>
-                            </v-col>
-                            <v-col cols="2"></v-col>
-                        </v-row>
-                    </v-container>
-                </v-card>
-            </v-col>
-            <v-col cols="2"></v-col>
-        </v-row>
-    
-    <v-dialog v-model="dialog" max-width="1000px">
-        <v-card>
-        <v-card-title>
-            <span class="headline">Edit Profile</span>
-        </v-card-title>
-        <v-card-text>
-            <v-container>
-            <v-row>
-                <v-col cols="12" sm="6" md="4">
-                <div class="form-group">
-                    <label for="firstname">First Name : </label>
-                    <v-text-field label="First Name" single-line outlined v-model="form.first_name" required></v-text-field>
-                </div>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                <div class="form-group">
-                    <label for="lastname">Last Name : </label>
-                    <v-text-field label="Last Name" single-line outlined v-model="form.last_name" required></v-text-field>
-                </div>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                <div class="form-group">
-                    <label for="gender">Gender : </label>
-                    <v-radio-group v-model="form.gender" :rules="[v => !!v || 'Item is required']" required>
-                        <v-radio label="Male" value="0"></v-radio>
-                        <v-radio label="Female" value="1"></v-radio>
-                    </v-radio-group>
-                </div>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                <div class="form-group">
-                    <label for="address">Address : </label>
-                    <v-text-field label="Address" single-line outlined v-model="form.address" required></v-text-field>
-                </div>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                <div class="form-group">
-                    <label for="city">City : </label>
-                    <v-text-field label="City" single-line outlined v-model="form.city" required></v-text-field>
-                </div>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                <div class="form-group">
-                    <label for="province">Province : </label>
-                    <v-text-field label="Province" single-line outlined v-model="form.province" required></v-text-field>
-                </div>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                    <div class="form-group">
-                        <v-menu
-                            v-model="menu"
-                            :close-on-content-click="false"
-                            :nudge-right="40"
-                            transition="scale-transition"
-                            offset-y
-                            min-width="290px">
-                        <template v-slot:activator="{ on }">
-                            <label for="birthdate">Birth Date :</label>
-                            <v-text-field
-                                v-model="form.birth_date"
-                                v-on="on"
-                                single-line outlined
-                                required>
-                            </v-text-field>
-                        </template>
-                        <v-date-picker v-model="form.birth_date" @input="menu = false " mode="range" :value="null" color="primary" is-dark is-inline></v-date-picker>
-                    </v-menu>
-                    </div>
-                </v-col>
-                <v-col cols="12" sm="6" md="4">
-                    <div class="form-group">
-                    <label for="Phone Number">Phone Number : </label>
-                    <v-text-field label="Phone Number" single-line outlined v-model="form.phone_number" required></v-text-field>
-                    </div>
-                </v-col>
+          <v-btn value="right">
+            Penthouse
+          </v-btn>
+
+          <v-btn value="justify">
+            Office
+          </v-btn>
+          <v-btn value="justify">
+            Building
+          </v-btn>
+        </v-btn-toggle>
+    </v-col>
+    <v-col :cols="3"/>
+  </v-row>
+  
+    <v-row>
+        <v-col :cols="3"/>
+      <v-col
+      :cols="6">
+       <template>
+            <v-card
+              :loading="loading"
+               class="mx-auto my-12"
+            >
+                <v-row>
+                    <v-col
+                    :cols="6">
+                    <v-img
+                        src="https://i.pinimg.com/originals/0f/bc/a7/0fbca7637190373f756df42c1f20cb0c.jpg"
+                    ></v-img>
+                    </v-col>
+                    <v-col
+                    :cols="6"
+                    :md="5">
+                        <div>
+                            <p class="text-left headline">Mexican House</p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim lobortis scelerisque fermentum dui faucibus in ornare. Purus viverra accumsan in nisl nisi. Varius morbi enim nunc faucibus a pellentesque sit amet porttitor. Lectus arcu bibendum at varius vel. Justo nec ultrices dui sapien eget.
+                        </div>
+                    </v-col>
                 </v-row>
-            </v-container>
-            </v-card-text>
-            <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="saveProfile()">Save</v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false">Cancel</v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
-    <v-snackbar       
-            v-model="snackbar"
-            :color="color"       
-            :multi-line="true"       
-            :timeout="3000">       
-            {{ text }}       
-                
-            <v-btn         
-                dark         
-                text         
-                @click="snackbar = false">         
-                Close       
-            </v-btn>     
-        </v-snackbar> 
-    </v-container> 
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn text>Read More</v-btn>
+                </v-card-actions>
+            </v-card>
+          </template>
+      </v-col>
+      <v-col :cols="3"/>
+    </v-row>
+</v-container> 
 
 </template>
 
@@ -178,105 +106,199 @@
   export default {
     data () {
       return {
-        dialog: false,
-        editedIndex: -1,
-        defaultItem: 
-        {
-            id: '',
-            first_name: '' ,
-            last_name: '',
-            gender: '',
-            address: '',
-            city: '',
-            province: '',
-            birth_date: '',
-            phone_number: '',
-            email: '',
-        },
-        form:
-        {
-            id: '',
-            first_name: '' ,
-            last_name: '',
-            gender: '',
-            address: '',
-            city: '',
-            province: '',
-            birth_date: '',
-            phone_number: '',
-        },
-        profiles: [],
-        profile: new FormData,
-        id_user: '',
-        snackbar: false,          
-        color: null,         
-        text: '',          
-        load: false,
-        menu: false
+            dialog: false,
+            confirmationDialog: false,
+            editedIndex: -1,
+            defaultItem: 
+            {
+                company_name: '',
+                address: '', 
+                city: '', 
+                province: '',
+                company_email: '',
+                phone_number: '',
+                company_description: ''
+            },
+            form: 
+            {
+                company_name: '',
+                address: '', 
+                city: '', 
+                province: '',
+                company_email: '',
+                phone_number: '',
+                company_description: ''
+            },
+            company: new FormData,
+            typeInput: 'new', 
+            companies: [],
+            search: '',
+            select: [],
+            snackbar: false,          
+            color: null,         
+            text: '',          
+            load: false,
+            id_user: '',
+            id: ''
       }
     },
+    computed: 
+    {
+      formTitle () {
+        return this.typeInput === "new" ? 'Add Company' : 'Edit Company'
+      },
+    },
     methods: {
-        getProfile(){
+        getData(){
             // var config = {
             //     headers: {
             //         Authorization: 'Bearer ' + localStorage.getItem('token')
             //     }
             // }             
-            this.id_user = this.$session.get("id_user") 
-            var uri = this.$apiUrl + '/profile/' + this.id_user         
-            this.$http.get(uri).then(response => {                 
-                this.profile = response.data.message       
+            
+            this.id_user = this.$session.get("id_user")
+            var uri = this.$apiUrl + '/company/readByUserId/' + this.id_user            
+            this.$http.get(uri).then(response => { 
+                if(response.data.message["msg"] === "Company tidak ditemukan"){
+                  this.companies = []
+                }else{
+                  this.companies = response.data.message
+                }
             })               
         },
-        saveProfile()
-        {
+        sendData(){  
             // var config = {
             //     headers: {
             //         Authorization: 'Bearer ' + localStorage.getItem('token')
             //     }
             // }
 
-            let update = new FormData();
+            this.company = new FormData()
+            this.company.append('id_user', this.id_user)
+            this.company.append('company_name', this.form.company_name);
+            this.company.append('address', this.form.address);
+            this.company.append('city', this.form.city);
+            this.company.append('province', this.form.province);
+            this.company.append('company_email', this.form.company_email);
+            this.company.append('phone_number', this.form.phone_number);
+            this.company.append('company_description', this.form.company_description);
 
-            update.append('first_name', this.form.first_name);             
-            update.append('last_name', this.form.last_name);             
-            update.append('gender', this.form.gender);
-            update.append('address', this.form.address);
-            update.append('city', this.form.city);
-            update.append('province', this.form.province);
-            update.append('birth_date', this.form.birth_date);
-            update.append('phone_number', this.form.phone_number);
-
-            var uri = this.$apiUrl + '/profile/' + this.profile.id;
+            var uri =this.$apiUrl + '/company'             
             this.load = true             
-            this.$http.post(uri,update).then(response =>{ 
-                    this.snackbar = true; //mengaktifkan snackbar               
-                    this.color = 'success'; //memberi warna snackbar               
-                    this.text = response.data.message; //memasukkan pesan ke snackbar               
-                    this.load = false;               
-                    this.dialog = false            
-                    this.getProfile(); //mengambil data user               
-                    //this.typeInput = 'new';           
-                }).catch(error =>{               
-                    this.errors = error               
-                    this.snackbar = true;               
-                    this.text = 'Try Again';               
-                    this.color = 'red';               
-                    this.load = false;               
-                    //this.typeInput = 'new';           
-                })         
+            this.$http.post(uri,this.company).then(response =>{               
+                this.snackbar = true; //mengaktifkan snackbar               
+                this.color = 'green'; //memberi warna snackbar               
+                this.text = response.data.message; //memasukkan pesan ke snackba r               
+                this.load = false;               
+                this.dialog = false               
+                this.getData(); //mengambil data user               
+                this.resetForm();           
+            }).catch(error =>{               
+                this.errors = error               
+                this.snackbar = true;               
+                this.text = 'Try Again';               
+                this.color = 'red';               
+                this.load = false;           
+            })         
+        }, 
+        updateData(){  
+            // var config = {
+            //     headers: {
+            //         Authorization: 'Bearer ' + localStorage.getItem('token')
+            //     }
+            // }
+
+            this.company = new FormData()
+            this.company.append('id_user', this.id_user)
+            this.company.append('company_name', this.form.company_name);
+            this.company.append('address', this.form.address);
+            this.company.append('city', this.form.city);
+            this.company.append('province', this.form.province);
+            this.company.append('company_email', this.form.company_email);
+            this.company.append('phone_number', this.form.phone_number);
+            this.company.append('company_description', this.form.company_description);
+
+            var uri =this.$apiUrl + '/company/' + this.form.id             
+            this.load = true             
+            this.$http.post(uri,this.company).then(response =>{               
+                this.snackbar = true; //mengaktifkan snackbar               
+                this.color = 'green'; //memberi warna snackbar               
+                this.text = response.data.message; //memasukkan pesan ke snackba r               
+                this.load = false;               
+                this.dialog = false               
+                this.getData(); //mengambil data user               
+                this.resetForm();           
+            }).catch(error =>{               
+                this.errors = error               
+                this.snackbar = true;               
+                this.text = 'Try Again';
+                this.color = 'red';               
+                this.load = false;           
+            })         
         },
-        editHandler(){
-            this.dialog = true;           
-            this.form.first_name = this.profile.first_name;
-            this.form.last_name = this.profile.last_name;
-            this.form.gender = this.profile.gender;
-            this.form.address = this.profile.address;
-            this.form.city = this.profile.city;
-            this.form.province = this.profile.province;
-            this.form.birth_date = this.profile.birth_date;
-            this.form.phone_number = this.profile.phone_number;
+        deleteData(id){  
+            // var config = {
+            //     headers: {
+            //         Authorization: 'Bearer ' + localStorage.getItem('token')
+            //     }
+            // }
+
+            this.confirmationDialog = false;
+            var uri =this.$apiUrl + '/company/' + id             
+            this.load = true             
+            this.$http.delete(uri).then(response =>{               
+                this.snackbar = true; //mengaktifkan snackbar               
+                this.color = 'green'; //memberi warna snackbar               
+                this.text = response.data.message; //memasukkan pesan ke snackba r               
+                this.load = false;               
+                this.dialog = false               
+                this.getData(); //mengambil data user               
+                this.resetForm();           
+            }).catch(error =>{               
+                this.errors = error               
+                this.snackbar = true;               
+                this.text = 'Try Again';
+                this.color = 'red';               
+                this.load = false;           
+            })
+        }, 
+        confirm(id){
+            this.id = id;
+            this.confirmationDialog = true;
         },
+        editHandler(company){
+            this.dialog = true; 
+            this.typeInput = "edit";   
+            this.form.id = company.id;       
+            this.form.company_name = company.company_name;
+            this.form.address = company.address;
+            this.form.city = company.city;
+            this.form.province = company.province;
+            this.form.phone_number = company.phone_number;
+            this.form.company_email = company.company_email;
+            this.form.company_description = company.company_description;
+        },
+        setForm(){             
+            if (this.typeInput === 'new') {
+                this.sendData()             
+            }else{         
+                this.updateData()             
+            }
+        },
+        resetForm(){             
+            this.form = {                
+                company_name: '',
+                address: '', 
+                city: '', 
+                province: '',
+                company_email: '',
+                phone_number: '',
+                company_description: ''             
+            }         
+        }
+    },
+    mounted(){         
+        this.getData();     
     },
   }
 </script>

@@ -46,7 +46,7 @@ const routes = [
             },
             {
                 name: 'Favorite',
-                path: '/dashboard/favorite',
+                path: '/dashboard/favorites',
                 component: loadView('Favorite')
             },
             {
