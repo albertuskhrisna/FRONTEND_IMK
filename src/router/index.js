@@ -46,7 +46,7 @@ const routes = [
             },
             {
                 name: 'Favorite',
-                path: '/dashboard/favorite',
+                path: '/dashboard/favorites',
                 component: loadView('Favorite')
             },
             {
@@ -65,6 +65,11 @@ const routes = [
                 component: loadView('Housing')
             },
             {
+               name: 'Detail',
+                path: '/dashboard/Detail',
+                component: loadView('buildingDetail')
+            },
+            {
                 name: 'Profile',
                 path: '/dashboard/profile',
                 component: loadView('Profile')
@@ -79,12 +84,12 @@ const routes = [
                 path: '/dashboard/profile/access',
                 component: loadView('Access')
             },
-            
             {
                 name: 'Photo',
                 path: '/dashboard/profile/photo',
                 component: loadView('Photo')
             }
+          
         ]
     },
 ]
