@@ -46,7 +46,7 @@ const routes = [
             },
             {
                 name: 'Favorite',
-                path: '/dashboard/favorite',
+                path: '/dashboard/favorites',
                 component: loadView('Favorite')
             },
             {
@@ -63,6 +63,11 @@ const routes = [
                 name: 'Housing',
                 path: '/dashboard/housing',
                 component: loadView('Housing')
+            },
+            {
+                name: 'Detail',
+                path: '/dashboard/Detail',
+                component: loadView('buildingDetail')
             }
         ]
     },

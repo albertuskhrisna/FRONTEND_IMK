@@ -1,150 +1,78 @@
 <template>
 <v-container> 
+  <v-row dense>
+    <v-col :cols="3"/>
+    <v-col
+    :cols="2">
+        <v-select
+          :items="items"
+          label="Locations"
+          dense
+          outlined
+          
+        ></v-select>
+    </v-col>
+    <v-col
+    :cols="4">
+      <v-text-field
+            label="Search Property..."
+            dense
+            outlined
+            prepend-inner-icon="mdi-magnify"
+            
+          ></v-text-field>
+    </v-col>
+    <v-col :cols="3"/>
+    <v-col
+    :cols="1">
+        <p class="text-left headline">Market</p>
+    </v-col>
+    <v-col
+    :cols="11">
+      <template>
+        <v-progress-linear value="100" style="margin-top:2%" ></v-progress-linear>
+      </template>
+    </v-col>
+  </v-row>
     <v-row>
-        <v-col cols="2"></v-col>
-        <v-col cols="8">
-            <v-card>
-                <v-container grid-list-md mb-0>
-                    <h2 class="text-md-center">COMPANY</h2> 
-                    <v-flex xs3> 
-                        <v-btn depressed dark rounded color = "primary" @click="dialog = true">
-                        <v-icon size="20" class="text-md-center">mdi-pencil-plus</v-icon>
-                        Add New Company
-                        </v-btn>
-                    </v-flex>
-                    <v-row>
-                    <v-col v-for="company in companies" :key="company.id" cols="12">
-                    <v-row>
-                    <v-col cols="12">
-                    <v-card
-                        color="primary" 
-                        height="auto" width="100%">
-                        <v-card-text class="white--text">
-                            <h2>Company Name: {{ company.company_name}}</h2>
-                            <br/>
-                            <h2>Address: {{ company.address + ", " + company.city + ", " + company.province }}</h2>
-                            <br/>
-                            <h2>Company Email: {{ company.company_email }}</h2>
-                        </v-card-text>
-                    
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn color="success" @click="editHandler(company)">
-                                <v-icon left color="white">mdi-pencil</v-icon>Edit
-                            </v-btn>
-                            <v-btn color="error" @click="confirm(company.id)">
-                                <v-icon left color="white">mdi-delete</v-icon>Delete
-                            </v-btn>
-                        </v-card-actions>
-                        </v-card>
-                    </v-col>
-                    <v-col cols="12">
-                    </v-col>
-                    </v-row>
-                    
-                    </v-col>
+      <v-col
+      :cols="3">
+        <template>
+            <v-card
+              :loading="loading"
+              class="mx-auto my-12"
+              max-width="374"
+            >
+              <v-img
+                height="250"
+                src="https://i.pinimg.com/originals/0f/bc/a7/0fbca7637190373f756df42c1f20cb0c.jpg"
+              ></v-img>
+
+              <v-card-title>Mexican House</v-card-title>
+
+              <v-card-text>
+                <v-row
+                  align="center"
+                  class="mx-0"
+                >
+                  <v-rating
+                    :value="4.5"
+                    color="amber"
+                    dense
+                    half-increments
+                    readonly
+                    size="14"
+                  ></v-rating>
+
+                  <div class="grey--text ml-4">4.5</div>
                 </v-row>
-                </v-container> 
+              </v-card-text>
+              <v-card-title>IDR 28.000.000.000</v-card-title>
+
             </v-card>
-        </v-col>
-        <v-col cols="2"></v-col>
-    </v-row> 
-  
-  <v-dialog v-model="dialog" max-width="1000px">
-    <v-card>
-  <v-card-title>
-    <h2 class="text-center">{{ formTitle }}</h2>
-  </v-card-title>
-  <v-card-text>
-    <v-container>
-        <v-row>
-            <v-col cols="12" sm="6" md="4">
-              <div class="form-group">
-                <label for="company_name">Company Name : </label>
-                <v-text-field label="Company Name" single-line outlined v-model="form.company_name" required></v-text-field>
-              </div>
-            </v-col>
-            <v-col cols="12" sm="6" md="4">
-              <div class="form-group">
-                <label for="address">Address : </label>
-                <v-text-field label="Address" single-line outlined v-model="form.address" required></v-text-field>
-              </div>
-            </v-col>
-            <v-col cols="12" sm="6" md="4">
-              <div class="form-group">
-                <label for="city">City : </label>
-                <v-text-field label="City" single-line outlined v-model="form.city" required></v-text-field>
-              </div>
-            </v-col>
-            <v-col cols="12" sm="6" md="4">
-              <div class="form-group">
-                <label for="province">Province : </label>
-                <v-text-field label="Province" single-line outlined v-model="form.province" required></v-text-field>
-              </div>
-            </v-col>
-            <v-col cols="12" sm="6" md="4">
-                <div class="form-group">
-                  <label for="company_email">Company Email : </label>
-                  <v-text-field label="Company Email" single-line outlined v-model="form.company_email" type="email" required></v-text-field>
-                </div>
-            </v-col>
-            <v-col cols="12" sm="6" md="4">
-                <div class="form-group">
-                  <label for="phone_number">Phone Number : </label>
-                  <v-text-field label="Phone Number" single-line outlined v-model="form.phone_number" required></v-text-field>
-                </div>
-            </v-col>
-            <v-col cols="12" sm="6" md="12">
-                <div class="form-group">
-                <label for="company_description">Company Description : </label> 
-                <v-textarea outlined name="input-7-4" v-model="form.company_description" required></v-textarea>
-                </div>
-            </v-col>
-            </v-row>
-      </v-container>
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
-        <v-btn color="blue darken-1" text @click="dialog = false">Cancel</v-btn>
-    </v-card-actions>
-</v-card>
-</v-dialog>
-
-<v-dialog v-model="confirmationDialog" width="25%">
-<v-card>
-  <v-card-title>
-    <h2 class="text-center">Confirmation</h2>
-  </v-card-title>
-  <v-card-text>
-    <v-container>
-        <v-row>
-            <h2>Are you sure want to delete this item ?</h2>
-        </v-row>
-      </v-container>
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="deleteData(id)">Confirm</v-btn>
-        <v-btn color="blue darken-1" text @click="confirmationDialog = false">Cancel</v-btn>
-    </v-card-actions>
-</v-card>
-</v-dialog>
-
-<v-snackbar       
-    v-model="snackbar"
-    :color="color"       
-    :multi-line="true"       
-    :timeout="3000">       
-    {{ text }}       
-        
-    <v-btn         
-        dark         
-        text         
-        @click="snackbar = false">         
-        Close       
-    </v-btn>     
-</v-snackbar> 
+          </template>
+      </v-col>
+    </v-row>
 </v-container> 
 
 </template>

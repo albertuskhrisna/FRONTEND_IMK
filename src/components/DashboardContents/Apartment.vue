@@ -1,140 +1,101 @@
 <template>
 <v-container> 
+  <v-row dense>
+    <v-col :cols="3"/>
+    <v-col
+    :cols="2">
+        <v-select
+          :items="items"
+          label="Locations"
+          dense
+          outlined
+          single-line
+          
+        ></v-select>
+    </v-col>
+    <v-col
+    :cols="4">
+      <v-text-field
+            label="Search Property..."
+            dense
+            outlined
+            prepend-inner-icon="mdi-magnify"
+            single-line
+            
+          ></v-text-field>
+    </v-col>
+    <v-col :cols="3"/>
+    <v-col
+    :cols="3">
+        <p class="text-left headline">Apartment & Penthouse</p>
+    </v-col>
+    <v-col
+    :cols="9">
+      <template>
+        <v-progress-linear value="100" style="margin-top:2%" ></v-progress-linear>
+      </template>
+    </v-col>
+    <v-col :cols="5"/>
+    <v-col :cols="4">
+        <v-btn-toggle
+          v-model="icon"
+        >
+          <v-btn>
+            Apartment
+          </v-btn>
+          <v-btn>
+            Penthouse
+          </v-btn>
+        </v-btn-toggle>
+    </v-col>
+    <v-col :cols="3"/>
+  </v-row>
+  
     <v-row>
-        <v-col cols="2"></v-col>
-        <v-col cols="8">
-            <v-card>
-                <v-container grid-list-md mb-0>
-                    <h2 class="text-md-center">JOB</h2> 
-                    <v-flex xs3> 
-                        <v-btn depressed dark rounded color = "primary" @click="dialog = true">
-                        <v-icon size="20" class="text-md-center">mdi-pencil-plus</v-icon>
-                        Add New Job
-                        </v-btn>
-                    </v-flex>
-                    <v-row>
-                    <v-col v-for="job in jobs" :key="job.id" cols="12">
-                    <v-row>
-                    <v-col cols="12">
-                    <v-card
-                        color="primary" 
-                        height="auto" width="100%">
-                        <v-card-text class="white--text">
-                            <h2>Job Name: {{ job.job_name}}</h2>
-                            <br/>
-                            <h2>Company Name: {{ job.company_name}}</h2>
-                            <br/>
-                            <h2>Location: {{ job.company_address + ", " + job.company_city + ", " + job.company_province }}</h2>
-                            <br/>
-                            <h2>Salary: {{ "Rp  " + job.salary }}</h2>
-                        </v-card-text>
-                    
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn color="success" @click="editHandler(job)">
-                                <v-icon left color="white">mdi-pencil</v-icon>Edit
-                            </v-btn>
-                            <v-btn color="error" @click="confirm(job.id)">
-                                <v-icon left color="white">mdi-delete</v-icon>Delete
-                            </v-btn>
-                        </v-card-actions>
-                        </v-card>
+        <v-col :cols="3"/>
+      <v-col
+      :cols="6">
+       <template>
+            <v-card
+              :loading="loading"
+               class="mx-auto my-12"
+               @click="$router.push('/dashboard/detail')"
+            >
+                <v-row>
+                    <v-col
+                    :cols="6">
+                    <v-img
+                        height="400px"
+                        src="https://q-cf.bstatic.com/images/hotel/max1024x768/109/109453792.jpg"
+                    ></v-img>
                     </v-col>
-                    <v-col cols="12">
-                    </v-col>
-                    </v-row>
-                    
+                    <v-col
+                    :cols="6"
+                    :md="5">
+                        <div>
+                            <p class="text-left headline">Simple Apartment</p>
+                            <v-rating
+                                :value="4.5"
+                                color="amber"
+                                dense
+                                half-increments
+                                readonly
+                                size="14"
+                            ></v-rating>
+                            <p class="text-left">IDR 28.000.000.0000</p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim lobortis scelerisque fermentum dui faucibus in ornare. Purus viverra accumsan in nisl nisi. Varius morbi enim nunc faucibus a pellentesque sit amet porttitor.
+                        </div>
                     </v-col>
                 </v-row>
-                </v-container> 
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn text>Read More</v-btn>
+                </v-card-actions>
             </v-card>
-        </v-col>
-        <v-col cols="2"></v-col>
-    </v-row> 
-  
-  <v-dialog v-model="dialog" max-width="1000px">
-    <v-card>
-  <v-card-title>
-    <h2 class="text-center">{{ formTitle }}</h2>
-  </v-card-title>
-  <v-card-text>
-    <v-container>
-        <v-row>
-            <v-col cols="12" sm="6" md="4">
-              <div class="form-group">
-                <label for="job_name">Job Name : </label>
-                <v-text-field label="Job Name" single-line outlined v-model="form.job_name" required></v-text-field>
-              </div>
-            </v-col>
-            <v-col cols="12" sm="6" md="4">
-              <div class="form-group">
-                <label for="company_name">Company Name : </label>
-                <v-select single-line outlined :items="selection" label="Company Name" v-model="form.company_name" required></v-select>
-              </div>
-            </v-col>
-            <v-col cols="12" sm="6" md="4">
-              <div class="form-group">
-                <label for="salary">Salary : </label>
-                <v-text-field label="Salary" single-line outlined v-model="form.salary" required></v-text-field>
-              </div>
-            </v-col>
-            <v-col cols="12" sm="6" md="12">
-                <div class="form-group">
-                <label for="description">Description : </label> 
-                <v-textarea outlined name="input-7-4" v-model="form.description" required></v-textarea>
-                </div>
-            </v-col>
-            <v-col cols="12" sm="6" md="12">
-                <div class="form-group">
-                <label for="requirement">Requirement : </label> 
-                <v-textarea outlined name="input-7-4" v-model="form.requirement" required></v-textarea>
-                </div>
-            </v-col>
-            </v-row>
-      </v-container>
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="setForm()">Save</v-btn>
-        <v-btn color="blue darken-1" text @click="dialog = false">Cancel</v-btn>
-    </v-card-actions>
-</v-card>
-</v-dialog>
-
-<v-dialog v-model="confirmationDialog" width="25%">
-<v-card>
-  <v-card-title>
-    <h2 class="text-center">Confirmation</h2>
-  </v-card-title>
-  <v-card-text>
-    <v-container>
-        <v-row>
-            <h2>Are you sure want to delete this item ?</h2>
-        </v-row>
-      </v-container>
-    </v-card-text>
-    <v-card-actions>
-      <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="deleteData(id)">Confirm</v-btn>
-        <v-btn color="blue darken-1" text @click="confirmationDialog = false">Cancel</v-btn>
-    </v-card-actions>
-</v-card>
-</v-dialog>
-
-<v-snackbar       
-    v-model="snackbar"
-    :color="color"       
-    :multi-line="true"       
-    :timeout="3000">       
-    {{ text }}       
-        
-    <v-btn         
-        dark         
-        text         
-        @click="snackbar = false">         
-        Close       
-    </v-btn>     
-</v-snackbar> 
+          </template>
+      </v-col>
+      <v-col :cols="3"/>
+    </v-row>
 </v-container> 
 
 </template>
@@ -148,37 +109,27 @@
             editedIndex: -1,
             defaultItem: 
             {
-                id: '',
-                id_user: '',
-                id_company: '',
-                job_name: '',
-                salary: '',
-                description: '',
-                requirement: '',
                 company_name: '',
-                company_address: '',
-                company_city: '',
-                company_province: '',
+                address: '', 
+                city: '', 
+                province: '',
+                company_email: '',
+                phone_number: '',
+                company_description: ''
             },
             form: 
             {
-                id: '',
-                id_user: '',
-                id_company: '',
-                job_name: '',
-                salary: '',
-                description: '',
-                requirement: '',
                 company_name: '',
-                company_address: '',
-                company_city: '',
-                company_province: '',
+                address: '', 
+                city: '', 
+                province: '',
+                company_email: '',
+                phone_number: '',
+                company_description: ''
             },
-            companies: [],
-            jobs: [],
-            selection: [],
-            job: new FormData,
+            company: new FormData,
             typeInput: 'new', 
+            companies: [],
             search: '',
             select: [],
             snackbar: false,          
@@ -191,20 +142,161 @@
     },
     computed: 
     {
-        formTitle() {
-            return this.typeInput === "new" ? 'Add Job' : 'Edit Job'
-        },
-        checkIDCompany() {
-            for(var i=0; i<this.companies.length; i++){
-                if(this.companies[i].company_name === this.form.company_name){
-                    return this.companies[i].id
-                }
-            }
-            return -1
-        },
+      formTitle () {
+        return this.typeInput === "new" ? 'Add Company' : 'Edit Company'
+      },
     },
     methods: {
-        
-    }
+        getData(){
+            // var config = {
+            //     headers: {
+            //         Authorization: 'Bearer ' + localStorage.getItem('token')
+            //     }
+            // }             
+            
+            this.id_user = this.$session.get("id_user")
+            var uri = this.$apiUrl + '/company/readByUserId/' + this.id_user            
+            this.$http.get(uri).then(response => { 
+                if(response.data.message["msg"] === "Company tidak ditemukan"){
+                  this.companies = []
+                }else{
+                  this.companies = response.data.message
+                }
+            })               
+        },
+        sendData(){  
+            // var config = {
+            //     headers: {
+            //         Authorization: 'Bearer ' + localStorage.getItem('token')
+            //     }
+            // }
+
+            this.company = new FormData()
+            this.company.append('id_user', this.id_user)
+            this.company.append('company_name', this.form.company_name);
+            this.company.append('address', this.form.address);
+            this.company.append('city', this.form.city);
+            this.company.append('province', this.form.province);
+            this.company.append('company_email', this.form.company_email);
+            this.company.append('phone_number', this.form.phone_number);
+            this.company.append('company_description', this.form.company_description);
+
+            var uri =this.$apiUrl + '/company'             
+            this.load = true             
+            this.$http.post(uri,this.company).then(response =>{               
+                this.snackbar = true; //mengaktifkan snackbar               
+                this.color = 'green'; //memberi warna snackbar               
+                this.text = response.data.message; //memasukkan pesan ke snackba r               
+                this.load = false;               
+                this.dialog = false               
+                this.getData(); //mengambil data user               
+                this.resetForm();           
+            }).catch(error =>{               
+                this.errors = error               
+                this.snackbar = true;               
+                this.text = 'Try Again';               
+                this.color = 'red';               
+                this.load = false;           
+            })         
+        }, 
+        updateData(){  
+            // var config = {
+            //     headers: {
+            //         Authorization: 'Bearer ' + localStorage.getItem('token')
+            //     }
+            // }
+
+            this.company = new FormData()
+            this.company.append('id_user', this.id_user)
+            this.company.append('company_name', this.form.company_name);
+            this.company.append('address', this.form.address);
+            this.company.append('city', this.form.city);
+            this.company.append('province', this.form.province);
+            this.company.append('company_email', this.form.company_email);
+            this.company.append('phone_number', this.form.phone_number);
+            this.company.append('company_description', this.form.company_description);
+
+            var uri =this.$apiUrl + '/company/' + this.form.id             
+            this.load = true             
+            this.$http.post(uri,this.company).then(response =>{               
+                this.snackbar = true; //mengaktifkan snackbar               
+                this.color = 'green'; //memberi warna snackbar               
+                this.text = response.data.message; //memasukkan pesan ke snackba r               
+                this.load = false;               
+                this.dialog = false               
+                this.getData(); //mengambil data user               
+                this.resetForm();           
+            }).catch(error =>{               
+                this.errors = error               
+                this.snackbar = true;               
+                this.text = 'Try Again';
+                this.color = 'red';               
+                this.load = false;           
+            })         
+        },
+        deleteData(id){  
+            // var config = {
+            //     headers: {
+            //         Authorization: 'Bearer ' + localStorage.getItem('token')
+            //     }
+            // }
+
+            this.confirmationDialog = false;
+            var uri =this.$apiUrl + '/company/' + id             
+            this.load = true             
+            this.$http.delete(uri).then(response =>{               
+                this.snackbar = true; //mengaktifkan snackbar               
+                this.color = 'green'; //memberi warna snackbar               
+                this.text = response.data.message; //memasukkan pesan ke snackba r               
+                this.load = false;               
+                this.dialog = false               
+                this.getData(); //mengambil data user               
+                this.resetForm();           
+            }).catch(error =>{               
+                this.errors = error               
+                this.snackbar = true;               
+                this.text = 'Try Again';
+                this.color = 'red';               
+                this.load = false;           
+            })
+        }, 
+        confirm(id){
+            this.id = id;
+            this.confirmationDialog = true;
+        },
+        editHandler(company){
+            this.dialog = true; 
+            this.typeInput = "edit";   
+            this.form.id = company.id;       
+            this.form.company_name = company.company_name;
+            this.form.address = company.address;
+            this.form.city = company.city;
+            this.form.province = company.province;
+            this.form.phone_number = company.phone_number;
+            this.form.company_email = company.company_email;
+            this.form.company_description = company.company_description;
+        },
+        setForm(){             
+            if (this.typeInput === 'new') {
+                this.sendData()             
+            }else{         
+                this.updateData()             
+            }
+        },
+        resetForm(){             
+            this.form = {                
+                company_name: '',
+                address: '', 
+                city: '', 
+                province: '',
+                company_email: '',
+                phone_number: '',
+                company_description: ''             
+            }         
+        }
+    },
+    mounted(){         
+        this.getData();     
+    },
   }
 </script>
