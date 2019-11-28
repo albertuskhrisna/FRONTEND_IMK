@@ -1,0 +1,353 @@
+<template>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark>
+
+      <div class="d-flex align-center">
+        <v-row>
+          <v-col>
+            <h1>LaMiaCasa</h1>
+          </v-col>
+          <v-col>
+            
+          </v-col>
+        </v-row>
+        <v-row>
+          <h5>Propertio Per Ogni Esigenza</h5>
+        </v-row>
+      </div>
+
+      <v-spacer></v-spacer>
+
+      
+      <v-toolbar-items>
+        <v-btn text router to="/">Home</v-btn>
+        <v-btn text router to="/about">About</v-btn>
+        <v-btn text router to="/contact">Contact Us</v-btn>
+        <v-btn text router to="/gallery">Gallery</v-btn>
+        <v-btn text @click="signIn = true">Log In</v-btn>
+        <v-btn text @click="signUp = true">Sign Up</v-btn>
+      </v-toolbar-items>
+    </v-app-bar>
+
+
+    <v-content>
+      <v-carousel
+        cycle
+        height="100%"
+        hide-delimiter-background
+        show-arrows-on-hover>
+      <v-carousel-item
+        v-for="(item, i) in items"
+        :src="item.src"
+        :key="i">
+        
+        <v-row
+          class="fill-height"
+          align="center"
+          justify="center">
+        
+        </v-row>
+    </v-carousel-item>
+  </v-carousel>
+    </v-content>
+
+    <template>
+      <v-dialog v-model="signIn" persistent max-width="600px">       
+          <v-card>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="signIn = false">
+                  <v-icon>fas fa-window-close</v-icon>
+                </v-btn>
+              </v-card-actions>  
+              <v-list>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <h1 class="text-center">LOG IN</h1>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list>      
+              <v-divider></v-divider>
+              <v-card-text>
+                  <v-container>             
+                      <v-row>               
+                          <v-col cols="12">                 
+                              <v-text-field 
+                                label="Username*" 
+                                v-model="formSignIn.username" 
+                                required
+                                filled
+                                rounded
+                                prepend-inner-icon="fas fa-user"></v-text-field>               
+                          </v-col>                         
+                          <v-col cols="12">                 
+                              <v-text-field 
+                                label="Password*" 
+                                v-model="formSignIn.password" 
+                                filled
+                                rounded
+                                dense
+                                required
+                                prepend-inner-icon="mdi-shield-lock"
+                                :append-icon="passwordIcon"
+                                :type="passwordType"
+                                @click:append="hidePassword = !hidePassword"></v-text-field>               
+                          </v-col>             
+                      </v-row>
+                  </v-container>           
+                  <small>*indicates required field</small>          
+              </v-card-text>
+              <div class="text-center">
+                <v-btn color="primary" rounded text @click="userLogin()"><h2>Login</h2></v-btn>
+              </div>
+              <div class="text-center">
+                <br>
+              </div>
+              <v-divider></v-divider>
+              <div class="text-center">
+                <br>
+                <h4><a href="#" style="text-decoration: none">Forgot Password ?</a></h4>
+              </div> 
+              <div class="text-center">
+                <br>
+              </div>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="signUp" persistent max-width="600px">       
+          <v-card>         
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" text @click="signUp = false">
+                  <v-icon>fas fa-window-close</v-icon>
+                </v-btn>
+              </v-card-actions> 
+              <v-list>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <h1 class="text-center">SIGN UP</h1>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list>      
+              <v-divider></v-divider>        
+              <v-card-text>           
+                  <v-container>             
+                      <v-row>  
+                          <v-col cols="12">             
+                              <v-text-field 
+                                label="Email*" 
+                                v-model="formSignUp.email"
+                                :rules="[() => !!formSignUp.email || 'This field is required']" 
+                                required
+                                filled
+                                rounded
+                                prepend-inner-icon="fas fa-envelope"></v-text-field>               
+                          </v-col>              
+                          <v-col cols="12">            
+                              <v-text-field 
+                                label="Username*" 
+                                v-model="formSignUp.username" 
+                                :rules="[() => !!formSignUp.username || 'This field is required']" 
+                                required
+                                filled
+                                rounded
+                                prepend-inner-icon="fas fa-user"></v-text-field>               
+                          </v-col>                         
+                          <v-col cols="12">                 
+                              <v-text-field 
+                                label="Password*" 
+                                v-model="formSignUp.password" 
+                                :rules="[() => !!formSignUp.password || 'This field is required']" 
+                                filled
+                                rounded
+                                dense
+                                required
+                                prepend-inner-icon="mdi-shield-lock"
+                                :append-icon="passwordIcon"
+                                :type="passwordType"
+                                @click:append="hidePassword = !hidePassword"></v-text-field>               
+                          </v-col> 
+                          <v-col cols="12">                 
+                              <v-text-field 
+                                label="Confirm Password*" 
+                                v-model="confirmPassword" 
+                                :rules="[() => !!formSignUp.confirmPassword || 'This field is required']" 
+                                filled
+                                rounded
+                                dense
+                                required
+                                prepend-inner-icon="mdi-shield-lock"
+                                :append-icon="confirmPasswordIcon"
+                                :type="confirmPasswordType"
+                                @click:append="hideConfirm = !hideConfirm"></v-text-field>               
+                          </v-col>           
+                      </v-row>
+                  </v-container>           
+                  <small>*indicates required field</small> 
+              </v-card-text>         
+              <div class="text-center">
+                <v-btn color="primary" rounded text @click="userSignUp()"><h2>Sign Up</h2></v-btn>
+              </div>
+              <div class="text-center">
+                <br>
+              </div>
+            </v-card>
+        </v-dialog>      
+        <v-snackbar       
+            v-model="snackbar"
+            :color="color"       
+            :multi-line="true"       
+            :timeout="3000">       
+            {{ text }}       
+                
+            <v-btn         
+                dark         
+                text         
+                @click="snackbar = false">
+                Close       
+            </v-btn>     
+        </v-snackbar>  
+    </template>
+    <v-footer color="primary">
+          <v-card-text class="white--text pt-0">
+            <v-row>
+              <v-col cols="2">
+                <v-img src ="../assets/aboutus.png" class="rounded-circle" style="
+                    width: 200px; 
+                    height: 200px;"></v-img>
+              </v-col>
+              <v-col cols="3">
+                  <div style="display: flex; flex-direction: column; width: 100%; margin-left: 5%;">
+                    <p style="text-align: left; font-size: 20pt; font-weight: bold;
+                        font-family:Varela Round; sans-serif;">ABOUT US</p>
+                    <p style="text-align: left">Website ini dibuat untuk Ujian Akhir Semester Pengembangan Aplikasi Web.
+                            Layanan website ini bermaksud untuk membantu freelancer dalam mencari pekerjaan.
+                            Pendaftaran gratis tanpa dipungut biaya.Berbagai proyek mulai dari IT,
+                            design, marketing, jasa penerjemahan, sampai jurnalistik.dll
+                    </p>
+                </div>
+              </v-col>
+              <v-col cols="2">
+              </v-col>
+              <v-col cols="3">
+                  <div style="display: flex; flex-direction: column; width: 100%; margin-left: 5%;">
+                    <p style="text-align: left; font-size: 20pt; font-weight: bold;
+                        font-family:Varela Round; sans-serif;">CONTACT US</p>
+                    <p style="text-align: left">
+                        <span class="fa fa-user fa-fw"></span>   Albertus Khrisna Bhayu Pamungkas (170709535)
+                        <br/>
+                        <span class="fa fa-user fa-fw"></span>   Vinsensia Resti Afrianti (170709521)
+                        <br/>
+                        <span class="fa fa-user fa-fw"></span>   Kristoforus Surya Adi Nugraha (170709502)
+                        <br/>
+                        <span class="fa fa-user fa-fw"></span>   Velika Dwilestari Ibrahim (170709223)
+                        <br/>
+                        <span class="fa fa-envelope fa-fw"></span>   freelancefinderuajy@gmail.com
+                    </p>
+                </div>
+              </v-col>
+            <v-col cols="2">
+                <v-img src ="../assets/contactus.png" class="rounded-circle" style="
+                    width: 200px; 
+                    height: 200px;"></v-img>
+            </v-col>
+            </v-row>
+          </v-card-text>
+      </v-footer>
+      <v-bottom-navigation dark>
+        <v-btn value="recent">
+          <span>&copy; Copyright IMK ANTI NGULANG CLUB</span>
+        </v-btn>
+      </v-bottom-navigation>
+  </v-app>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      signIn: false,
+      signUp: false,
+      snackbar: false,          
+      color: null,         
+      text: '',
+      load: false,
+      errors: '',
+      formSignIn: {
+        username: '',
+        password: '',
+      },
+      formSignUp: {
+        email: '',
+        username: '',
+        password: '',
+        user_type: '',
+      },
+      confirmPassword: '',
+      user: new FormData,
+      hidePassword: true,
+      hideConfirm: true,
+      items: [
+        {
+          src: 'https://simbahlucu.com/freelancefinder_paw/img/car1.jpg'
+        },
+        {
+          src: 'https://www.civicplus.com/hubfs/blog_images/051017-Blog-Why%20Social%20Media%20Will%20Make%20or%20Break%20Your%20Recruitment%20Strategy%20%281%29.png'
+        },
+        {
+          src: 'https://www.knoxvillejobs.com/wp-content/uploads/2017/07/How-to-Find-Hero_1920W.jpg'
+        },
+        {
+          src: 'https://eratekno.com/wp-content/uploads/2018/03/apliasi-pencari-kerja.jpg'
+        },
+        {
+          src: 'https://wallpaperaccess.com/full/1691722.jpg'
+        },
+      ],
+    }
+  },
+  computed: {
+    passwordType() {
+      return this.hidePassword ? 'password' : 'text'
+    },
+    confirmPasswordType() {
+      return this.hideConfirm ? 'password' : 'text'
+    },
+    passwordIcon() {
+      return this.hidePassword ? 'mdi-eye' : 'mdi-eye-off'
+    },
+    confirmPasswordIcon(){
+      return this.hideConfirm ? 'mdi-eye' : 'mdi-eye-off'
+    }
+  },
+  methods: {
+    userLogin(){                        
+      if(this.formSignIn.username == "andrebemantoro"){
+        this.snackbar = true;                
+        this.color = 'success'; 
+        this.text = "Login Success !"
+        this.load = false;               
+        this.formSignIn = false
+        this.$router.push({name: "DashboardLayout"})
+      }
+    },
+    userSignUp(){
+      if(this.formSignUp.email == "andrebemantoro@gmail.com"){
+        this.snackbar = true;                
+        this.color = 'success'; 
+        this.text = "Registration Success !"
+        this.load = false;               
+        this.formSignUp = false
+        this.$router.push({name: "Homepage"})
+      }else{
+        this.snackbar = true;                
+        this.color = 'error'; 
+        this.text = "Registration Failed !"
+        this.load = false;
+      }   
+    },
+  }
+};
+</script>
