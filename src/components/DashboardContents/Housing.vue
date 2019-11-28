@@ -9,6 +9,7 @@
           label="Locations"
           dense
           outlined
+          single-line
           
         ></v-select>
     </v-col>
@@ -19,32 +20,35 @@
             dense
             outlined
             prepend-inner-icon="mdi-magnify"
+            single-line
             
           ></v-text-field>
     </v-col>
     <v-col :cols="3"/>
     <v-col
     :cols="1">
-        <p class="text-left headline">Market</p>
+        <p class="text-left headline">Housing</p>
     </v-col>
     <v-col
     :cols="11">
       <template>
-        <v-progress-linear value="100" style="margin-top:2  %" ></v-progress-linear>
+        <v-progress-linear value="100" style="margin-top:2%" ></v-progress-linear>
       </template>
     </v-col>
   </v-row>
+  
     <v-row>
+        <v-col :cols="3"/>
       <v-col
-      :cols="3">
-        <template>
+      :cols="6">
+       <template>
             <v-card
               :loading="loading"
               class="mx-auto my-12"
-              max-width="374"
+              max-width="500px"
             >
               <v-img
-                height="250"
+                height="300"
                 src="https://i.pinimg.com/originals/0f/bc/a7/0fbca7637190373f756df42c1f20cb0c.jpg"
               ></v-img>
 
@@ -68,10 +72,17 @@
                 </v-row>
               </v-card-text>
               <v-card-title>IDR 28.000.000.000</v-card-title>
-
+              <v-card-text>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim lobortis scelerisque fermentum dui faucibus in ornare. Purus viverra accumsan in nisl nisi. Varius morbi enim nunc faucibus a pellentesque sit amet porttitor. Lectus arcu bibendum at varius vel.
+              </v-card-text>
+              <v-card-actions>
+                  <v-spacer/>
+                  <v-btn text>Read More</v-btn>
+              </v-card-actions>
             </v-card>
           </template>
       </v-col>
+      <v-col :cols="3"/>
     </v-row>
 </v-container> 
 

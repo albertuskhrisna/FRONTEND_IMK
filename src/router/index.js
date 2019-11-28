@@ -63,6 +63,11 @@ const routes = [
                 name: 'Housing',
                 path: '/dashboard/housing',
                 component: loadView('Housing')
+            },
+            {
+                name: 'Detail',
+                path: '/dashboard/Detail',
+                component: loadView('buildingDetail')
             }
         ]
     },

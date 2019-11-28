@@ -3,17 +3,7 @@
   <v-row dense>
     <v-col :cols="3"/>
     <v-col
-    :cols="2">
-        <v-select
-          :items="items"
-          label="Locations"
-          dense
-          outlined
-          
-        ></v-select>
-    </v-col>
-    <v-col
-    :cols="4">
+    :cols="6">
       <v-text-field
             label="Search Property..."
             dense
@@ -23,54 +13,85 @@
           ></v-text-field>
     </v-col>
     <v-col :cols="3"/>
-    <v-col
-    :cols="1">
-        <p class="text-left headline">Market</p>
-    </v-col>
-    <v-col
-    :cols="11">
-      <template>
-        <v-progress-linear value="100" style="margin-top:2%" ></v-progress-linear>
-      </template>
-    </v-col>
   </v-row>
     <v-row>
-      <v-col
-      :cols="3">
-        <template>
-            <v-card
-              :loading="loading"
-              class="mx-auto my-12"
-              max-width="374"
-            >
-              <v-img
-                height="250"
-                src="https://i.pinimg.com/originals/0f/bc/a7/0fbca7637190373f756df42c1f20cb0c.jpg"
-              ></v-img>
-
-              <v-card-title>Mexican House</v-card-title>
-
-              <v-card-text>
-                <v-row
-                  align="center"
-                  class="mx-0"
-                >
-                  <v-rating
+      <v-col :cols="7">
+          <v-container>
+              <v-card>
+                  <v-row>
+                      <v-col
+                      :cols="12">
+                        <template>
+                            <v-card
+                            style="margin-left:5px; margin-right:5px">
+                                <v-img
+                        height="400px"
+                        src="https://q-cf.bstatic.com/images/hotel/max1024x768/109/109453792.jpg"
+                    ></v-img>
+                            </v-card>
+                        </template>
+                      </v-col>
+                      <v-col
+                      :cols="4">
+                         <v-card style="margin-left:5px">
+                                <v-img
+                        height="100px"
+                        src="https://ak6.picdn.net/shutterstock/videos/1006583506/thumb/1.jpg"
+                    ></v-img>
+                            </v-card>
+                      </v-col>
+                      <v-col
+                      :cols="4">
+                         <v-card>
+                                <v-img
+                        height="100px"
+                        src="http://everyquotes.com/img/2019/09/rustic-layout-ideas-planner-luxury-installation-interior-backsplash-tile-huzname-shaker-styles-bath-beautiful-grey-design-apartment-remodel-817x540.jpg"
+                    ></v-img>
+                            </v-card>
+                      </v-col>
+                      <v-col
+                      :cols="4">
+                         <v-card
+                         style="margin-right:5px">
+                                <v-img
+                        height="100px"
+                        src="https://alicisivar.com/wp-content/uploads/2018/09/8-Amazing-Simple-Bathroom-Theme-Ideas-awesome-simple-apartment.jpg"
+                    ></v-img>
+                            </v-card>
+                      </v-col>
+                  </v-row>
+              </v-card>
+          </v-container>
+      </v-col>
+      <v-col :cols="1"/>
+      <v-col>
+          <v-container>
+              <div class="text-left headline">Simple Apartment</div>
+               <v-rating
                     :value="4.5"
                     color="amber"
                     dense
                     half-increments
                     readonly
                     size="14"
-                  ></v-rating>
-
-                  <div class="grey--text ml-4">4.5</div>
-                </v-row>
-              </v-card-text>
-              <v-card-title>IDR 28.000.000.000</v-card-title>
-
-            </v-card>
-          </template>
+                ></v-rating>
+                <div class="text-left">IDR 28.000.000.000</div>
+                <div class="text-left" style="margin-top:2%">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim lobortis scelerisque fermentum dui faucibus in ornare. Purus viverra accumsan in nisl nisi. Varius morbi enim nunc faucibus a pellentesque sit amet porttitor. Lectus arcu bibendum at varius vel.</div>
+                <v-container>
+                    <v-btn text>
+                        <v-icon>mdi-arrow-right-drop-circle </v-icon> Detail Spesification 
+                    </v-btn>
+                    <v-btn text>
+                        <v-icon>mdi-arrow-right-drop-circle </v-icon> Address & Location 
+                    </v-btn>
+                    <v-btn text>
+                        <v-icon>mdi-plus-circle </v-icon> Add to favorites
+                    </v-btn>
+                </v-container>
+                <v-container style="margin-top:10%">
+                    <v-btn>Contact Property</v-btn>
+                </v-container>
+          </v-container>
       </v-col>
     </v-row>
 </v-container> 
