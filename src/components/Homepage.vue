@@ -36,7 +36,7 @@
     <v-content>
       <v-carousel
         cycle
-        height="100%"
+        height="800"
         hide-delimiter-background
         show-arrows-on-hover>
       <v-carousel-item
@@ -236,15 +236,13 @@
                     <p style="text-align: left; font-size: 20pt; font-weight: bold;
                         font-family:Varela Round; sans-serif;">CONTACT US</p>
                     <p style="text-align: left">
-                        <span class="fa fa-user fa-fw"></span>   Albertus Khrisna Bhayu Pamungkas (170709535)
+                        <span class="fas facebook fa-fw"></span>   lamiacasa
                         <br/>
-                        <span class="fa fa-user fa-fw"></span>   Vinsensia Resti Afrianti (170709521)
+                        <span class="fas fa-instagram fa-fw"></span>   @lamiacasa
                         <br/>
-                        <span class="fa fa-user fa-fw"></span>   Kristoforus Surya Adi Nugraha (170709502)
+                        <span class="fas fa-twitter fa-fw"></span>   @lamiacasa
                         <br/>
-                        <span class="fa fa-user fa-fw"></span>   Velika Dwilestari Ibrahim (170709223)
-                        <br/>
-                        <span class="fa fa-envelope fa-fw"></span>   freelancefinderuajy@gmail.com
+                        <span class="fas fa-envelope fa-fw"></span>   lamiacasa@gmail.com
                     </p>
                 </div>
               </v-col>
@@ -291,19 +289,19 @@ export default {
       hideConfirm: true,
       items: [
         {
-          src: 'https://simbahlucu.com/freelancefinder_paw/img/car1.jpg'
+          src: 'https://www.odeon.mc/thmbwt/fixe/1920/1080/6KNt1NwcOK15XTJHjIqj5KnNe_PLS_Ko1vHxG_SLH_XXzmcjviNshwLOD_SLH_bjqpk7kmQHMnModHbjEqxd4ek_EQS_.jpg'
         },
         {
-          src: 'https://www.civicplus.com/hubfs/blog_images/051017-Blog-Why%20Social%20Media%20Will%20Make%20or%20Break%20Your%20Recruitment%20Strategy%20%281%29.png'
+          src: 'https://construccionesprisma.com.co/images/apartment_photos/22_41_pradoalto97.5m202.jpg'
         },
         {
-          src: 'https://www.knoxvillejobs.com/wp-content/uploads/2017/07/How-to-Find-Hero_1920W.jpg'
+          src: 'https://www.realista.com/wp-content/uploads/2018/07/Aqualina-apartments-and-penthouses-Benahavis-for-sale-new-development-off-plan_Realista-Quality-Property-Marbella-7.jpg'
         },
         {
-          src: 'https://eratekno.com/wp-content/uploads/2018/03/apliasi-pencari-kerja.jpg'
+          src: 'https://s1.1zoom.me/b5050/136/349972-admin_1920x1080.jpg'
         },
         {
-          src: 'https://wallpaperaccess.com/full/1691722.jpg'
+          src: 'http://cardiogenix.com/wp-content/uploads/2016/04/hotel-bed-rooms-contemporary-design-9-on-bed-design-ideas.jpg'
         },
       ],
     }

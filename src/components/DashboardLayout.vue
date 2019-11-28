@@ -55,8 +55,13 @@
               <VSpacer /> 
               <v-toolbar-title                 
                 style="font-size: 21px;"                 
-                class="white--text mr-12">                 
-                andrebemantoro            
+                class="white--text mr-12">
+                <v-btn height="100%" color="primary" @click="profile()">
+                    <v-avatar color="red">
+                        ab
+                    </v-avatar>
+                        andrebemantoro
+                </v-btn>
               </v-toolbar-title> 
         </v-app-bar> 
 
@@ -83,6 +88,9 @@
         methods: {
             userlogout(){
                 this.$router.push('/')
+            },
+            profile(){
+                this.$router.push('/dashboard/profile')
             }
         }
     } 

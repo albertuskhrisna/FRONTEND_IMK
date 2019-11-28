@@ -65,10 +65,31 @@ const routes = [
                 component: loadView('Housing')
             },
             {
-                name: 'Detail',
+               name: 'Detail',
                 path: '/dashboard/Detail',
                 component: loadView('buildingDetail')
+            },
+            {
+                name: 'Profile',
+                path: '/dashboard/profile',
+                component: loadView('Profile')
+            },
+            {
+                name: 'Personal',
+                path: '/dashboard/profile/personal',
+                component: loadView('Personal')
+            },
+            {
+                name: 'Access',
+                path: '/dashboard/profile/access',
+                component: loadView('Access')
+            },
+            {
+                name: 'Photo',
+                path: '/dashboard/profile/photo',
+                component: loadView('Photo')
             }
+          
         ]
     },
 ]
