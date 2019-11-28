@@ -63,6 +63,27 @@ const routes = [
                 name: 'Housing',
                 path: '/dashboard/housing',
                 component: loadView('Housing')
+            },
+            {
+                name: 'Profile',
+                path: '/dashboard/profile',
+                component: loadView('Profile')
+            },
+            {
+                name: 'Personal',
+                path: '/dashboard/profile/personal',
+                component: loadView('Personal')
+            },
+            {
+                name: 'Access',
+                path: '/dashboard/profile/access',
+                component: loadView('Access')
+            },
+            
+            {
+                name: 'Photo',
+                path: '/dashboard/profile/photo',
+                component: loadView('Photo')
             }
         ]
     },
