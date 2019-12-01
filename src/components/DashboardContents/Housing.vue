@@ -5,12 +5,12 @@
     <v-col
     :cols="2">
         <v-select
-          :items="items"
+          :items="type"
           label="Locations"
           dense
           outlined
           single-line
-          
+          v-model="searchBy"
         ></v-select>
     </v-col>
     <v-col
@@ -21,7 +21,7 @@
             outlined
             prepend-inner-icon="mdi-magnify"
             single-line
-            
+            v-model="search"
           ></v-text-field>
     </v-col>
     <v-col :cols="3"/>
@@ -38,51 +38,48 @@
   </v-row>
   
     <v-row>
-        <v-col :cols="3"/>
+        <!-- <v-col :cols="3"/> -->
       <v-col
-      :cols="6">
+      :cols="6" v-for="item in filteredItem" :key="item.title">
        <template>
             <v-card
               :loading="loading"
-              class="mx-auto my-12"
-              max-width="500px"
+               class="mx-auto my-12"
             >
-              <v-img
-                height="300"
-                src="https://i.pinimg.com/originals/0f/bc/a7/0fbca7637190373f756df42c1f20cb0c.jpg"
-              ></v-img>
-
-              <v-card-title>Mexican House</v-card-title>
-
-              <v-card-text>
-                <v-row
-                  align="center"
-                  class="mx-0"
-                >
-                  <v-rating
-                    :value="4.5"
-                    color="amber"
-                    dense
-                    half-increments
-                    readonly
-                    size="14"
-                  ></v-rating>
-
-                  <div class="grey--text ml-4">4.5</div>
+                <v-row>
+                    <v-col
+                    :cols="6">
+                    <v-img
+                        height="400px"
+                        :src=item.src
+                    ></v-img>
+                    </v-col>
+                    <v-col
+                    :cols="6"
+                    :md="5">
+                        <div>
+                            <p class="text-left headline">{{item.title}}</p>
+                            <v-rating
+                                :value=item.value
+                                color="amber"
+                                dense
+                                half-increments
+                                readonly
+                                size="14"
+                            ></v-rating>
+                            <p class="text-left">{{item.price}}</p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim lobortis scelerisque fermentum dui faucibus in ornare. Purus viverra accumsan in nisl nisi. Varius morbi enim nunc faucibus a pellentesque sit amet porttitor.
+                        </div>
+                    </v-col>
                 </v-row>
-              </v-card-text>
-              <v-card-title>IDR 28.000.000.000</v-card-title>
-              <v-card-text>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim lobortis scelerisque fermentum dui faucibus in ornare. Purus viverra accumsan in nisl nisi. Varius morbi enim nunc faucibus a pellentesque sit amet porttitor. Lectus arcu bibendum at varius vel.
-              </v-card-text>
-              <v-card-actions>
-                  <v-spacer/>
-                  <v-btn text>Read More</v-btn>
-              </v-card-actions>
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn text @click="detail(item)">Read More</v-btn>
+                </v-card-actions>
             </v-card>
           </template>
       </v-col>
-      <v-col :cols="3"/>
+      <!-- <v-col :cols="3"/> -->
     </v-row>
 </v-container> 
 
@@ -92,199 +89,69 @@
   export default {
     data () {
       return {
-            dialog: false,
-            confirmationDialog: false,
-            editedIndex: -1,
-            defaultItem: 
+            items:
+            [
+              {
+                id: 0,
+                title: 'Mexican House',
+                src: 'https://i.pinimg.com/originals/0f/bc/a7/0fbca7637190373f756df42c1f20cb0c.jpg',
+                value: '4.5',
+                type: 'Housing',
+                price: 'IDR 28.000.000.000'
+              },
+              {
+                id: 1,
+                title: 'Old White House',
+                src: 'https://d2ern41v4fpcqm.cloudfront.net/media/gallery/property-69329/i076900.jpg',
+                value: '3.0',
+                type: 'Housing',
+                price: 'IDR 340.000.000'
+              },
+              {
+                id: 2,
+                title: 'Old Age House',
+                src: 'https://cdn.mos.cms.futurecdn.net/pHX9MUPtvKjyKwJbfUsgS4-768-80.jpg',
+                value: '4.0',
+                type: 'Housing',
+                price: 'IDR 450.000.000'
+              },
+            ],
+            item:
             {
-                company_name: '',
-                address: '', 
-                city: '', 
-                province: '',
-                company_email: '',
-                phone_number: '',
-                company_description: ''
+              title: '',
+              src: '',
+              value: '',
+              type: '',
+              price: ''
             },
-            form: 
-            {
-                company_name: '',
-                address: '', 
-                city: '', 
-                province: '',
-                company_email: '',
-                phone_number: '',
-                company_description: ''
-            },
-            company: new FormData,
-            typeInput: 'new', 
-            companies: [],
             search: '',
-            select: [],
-            snackbar: false,          
-            color: null,         
-            text: '',          
-            load: false,
-            id_user: '',
-            id: ''
+            searchBy: '',
+            icon: '',
+            loading: false,
+            items_original: [],
+            type: ['Housing']
       }
     },
     computed: 
     {
-      formTitle () {
-        return this.typeInput === "new" ? 'Add Company' : 'Edit Company'
+      filteredItem(){
+        return this.items.filter(item =>
+        {
+          return item.title.toLowerCase().includes(this.search.toLowerCase()) ||
+          item.value.includes(this.search) ||
+          item.price.includes(this.search)
+        })
       },
     },
     methods: {
-        getData(){
-            // var config = {
-            //     headers: {
-            //         Authorization: 'Bearer ' + localStorage.getItem('token')
-            //     }
-            // }             
-            
-            this.id_user = this.$session.get("id_user")
-            var uri = this.$apiUrl + '/company/readByUserId/' + this.id_user            
-            this.$http.get(uri).then(response => { 
-                if(response.data.message["msg"] === "Company tidak ditemukan"){
-                  this.companies = []
-                }else{
-                  this.companies = response.data.message
-                }
-            })               
-        },
-        sendData(){  
-            // var config = {
-            //     headers: {
-            //         Authorization: 'Bearer ' + localStorage.getItem('token')
-            //     }
-            // }
-
-            this.company = new FormData()
-            this.company.append('id_user', this.id_user)
-            this.company.append('company_name', this.form.company_name);
-            this.company.append('address', this.form.address);
-            this.company.append('city', this.form.city);
-            this.company.append('province', this.form.province);
-            this.company.append('company_email', this.form.company_email);
-            this.company.append('phone_number', this.form.phone_number);
-            this.company.append('company_description', this.form.company_description);
-
-            var uri =this.$apiUrl + '/company'             
-            this.load = true             
-            this.$http.post(uri,this.company).then(response =>{               
-                this.snackbar = true; //mengaktifkan snackbar               
-                this.color = 'green'; //memberi warna snackbar               
-                this.text = response.data.message; //memasukkan pesan ke snackba r               
-                this.load = false;               
-                this.dialog = false               
-                this.getData(); //mengambil data user               
-                this.resetForm();           
-            }).catch(error =>{               
-                this.errors = error               
-                this.snackbar = true;               
-                this.text = 'Try Again';               
-                this.color = 'red';               
-                this.load = false;           
-            })         
-        }, 
-        updateData(){  
-            // var config = {
-            //     headers: {
-            //         Authorization: 'Bearer ' + localStorage.getItem('token')
-            //     }
-            // }
-
-            this.company = new FormData()
-            this.company.append('id_user', this.id_user)
-            this.company.append('company_name', this.form.company_name);
-            this.company.append('address', this.form.address);
-            this.company.append('city', this.form.city);
-            this.company.append('province', this.form.province);
-            this.company.append('company_email', this.form.company_email);
-            this.company.append('phone_number', this.form.phone_number);
-            this.company.append('company_description', this.form.company_description);
-
-            var uri =this.$apiUrl + '/company/' + this.form.id             
-            this.load = true             
-            this.$http.post(uri,this.company).then(response =>{               
-                this.snackbar = true; //mengaktifkan snackbar               
-                this.color = 'green'; //memberi warna snackbar               
-                this.text = response.data.message; //memasukkan pesan ke snackba r               
-                this.load = false;               
-                this.dialog = false               
-                this.getData(); //mengambil data user               
-                this.resetForm();           
-            }).catch(error =>{               
-                this.errors = error               
-                this.snackbar = true;               
-                this.text = 'Try Again';
-                this.color = 'red';               
-                this.load = false;           
-            })         
-        },
-        deleteData(id){  
-            // var config = {
-            //     headers: {
-            //         Authorization: 'Bearer ' + localStorage.getItem('token')
-            //     }
-            // }
-
-            this.confirmationDialog = false;
-            var uri =this.$apiUrl + '/company/' + id             
-            this.load = true             
-            this.$http.delete(uri).then(response =>{               
-                this.snackbar = true; //mengaktifkan snackbar               
-                this.color = 'green'; //memberi warna snackbar               
-                this.text = response.data.message; //memasukkan pesan ke snackba r               
-                this.load = false;               
-                this.dialog = false               
-                this.getData(); //mengambil data user               
-                this.resetForm();           
-            }).catch(error =>{               
-                this.errors = error               
-                this.snackbar = true;               
-                this.text = 'Try Again';
-                this.color = 'red';               
-                this.load = false;           
-            })
-        }, 
-        confirm(id){
-            this.id = id;
-            this.confirmationDialog = true;
-        },
-        editHandler(company){
-            this.dialog = true; 
-            this.typeInput = "edit";   
-            this.form.id = company.id;       
-            this.form.company_name = company.company_name;
-            this.form.address = company.address;
-            this.form.city = company.city;
-            this.form.province = company.province;
-            this.form.phone_number = company.phone_number;
-            this.form.company_email = company.company_email;
-            this.form.company_description = company.company_description;
-        },
-        setForm(){             
-            if (this.typeInput === 'new') {
-                this.sendData()             
-            }else{         
-                this.updateData()             
-            }
-        },
-        resetForm(){             
-            this.form = {                
-                company_name: '',
-                address: '', 
-                city: '', 
-                province: '',
-                company_email: '',
-                phone_number: '',
-                company_description: ''             
-            }         
-        }
-    },
-    mounted(){         
-        this.getData();     
+      detail(item){
+      this.$router.push(
+          {
+            name: 'HousingDetail',
+            params: {id: item.id}
+          }
+        )
+      },
     },
   }
 </script>

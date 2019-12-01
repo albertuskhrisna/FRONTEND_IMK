@@ -5,12 +5,12 @@
     <v-col
     :cols="2">
         <v-select
-          :items="items"
+          :items="type"
           label="Locations"
           dense
           outlined
           single-line
-          
+          v-model="searchBy"
         ></v-select>
     </v-col>
     <v-col
@@ -21,7 +21,7 @@
             outlined
             prepend-inner-icon="mdi-magnify"
             single-line
-            
+            v-model="search"
           ></v-text-field>
     </v-col>
     <v-col :cols="3"/>
@@ -42,10 +42,10 @@
         
         >
 
-          <v-btn value="justify">
+          <v-btn @click="showOffice()">
             Office
           </v-btn>
-          <v-btn value="justify">
+          <v-btn value="justify" @click="showBuilding()">
             Building
           </v-btn>
         </v-btn-toggle>
@@ -54,9 +54,9 @@
   </v-row>
   
     <v-row>
-        <v-col :cols="3"/>
+        <!-- <v-col :cols="3"/> -->
       <v-col
-      :cols="6">
+      :cols="6" v-for="item in filteredItem" :key="item.title">
        <template>
             <v-card
               :loading="loading"
@@ -67,35 +67,35 @@
                     :cols="6">
                     <v-img
                         height="400px"
-                        src="https://i.pinimg.com/originals/a4/a7/58/a4a7582c2b2657dd661151dac0ecdbd7.jpg"
+                        :src=item.src
                     ></v-img>
                     </v-col>
                     <v-col
                     :cols="6"
                     :md="5">
                         <div>
-                            <p class="text-left headline">Simple Private Office</p>
+                            <p class="text-left headline">{{item.title}}</p>
                             <v-rating
-                                :value="4.5"
+                                :value=item.value
                                 color="amber"
                                 dense
                                 half-increments
                                 readonly
                                 size="14"
                             ></v-rating>
-                            <p class="text-left">IDR 28.000.000.0000</p>
+                            <p class="text-left">{{item.price}}</p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim lobortis scelerisque fermentum dui faucibus in ornare. Purus viverra accumsan in nisl nisi. Varius morbi enim nunc faucibus a pellentesque sit amet porttitor.
                         </div>
                     </v-col>
                 </v-row>
                 <v-card-actions>
                     <v-spacer/>
-                    <v-btn text>Read More</v-btn>
+                    <v-btn text @click="detail(item)">Read More</v-btn>
                 </v-card-actions>
             </v-card>
           </template>
       </v-col>
-      <v-col :cols="3"/>
+      <!-- <v-col :cols="3"/> -->
     </v-row>
 </v-container> 
 
@@ -105,196 +105,89 @@
   export default {
     data () {
       return {
-            dialog: false,
-            confirmationDialog: false,
-            editedIndex: -1,
-            defaultItem: 
+            items:
+            [
+              {
+                id: 0,
+                title: 'Big Join Office',
+                src: 'https://www.truefit.com/getattachment/Blog/January-2018/Dream-Big-in-2018-Join-the-True-Fit-Team/TF-Boston-Office-lobby1.jpg.aspx',
+                value: '4.0',
+                type: 'Building',
+                price: 'IDR 33.000.000.000'
+              },
+              {
+                id: 1,
+                title: 'Simple Private Office',
+                src: 'https://officesnapshots.com/wp-content/uploads/2018/01/allsteel-showroom-los-angeles-wolcott-architecture-interiors-10-1200x800.jpg',
+                value: '4.5',
+                type: 'Office',
+                price: 'IDR 28.000.000.000'
+              },
+            ],
+            item:
             {
-                company_name: '',
-                address: '', 
-                city: '', 
-                province: '',
-                company_email: '',
-                phone_number: '',
-                company_description: ''
+              title: '',
+              src: '',
+              value: '',
+              type: '',
+              price: ''
             },
-            form: 
-            {
-                company_name: '',
-                address: '', 
-                city: '', 
-                province: '',
-                company_email: '',
-                phone_number: '',
-                company_description: ''
-            },
-            company: new FormData,
-            typeInput: 'new', 
-            companies: [],
             search: '',
-            select: [],
-            snackbar: false,          
-            color: null,         
-            text: '',          
-            load: false,
-            id_user: '',
-            id: ''
+            searchBy: '',
+            icon: '',
+            loading: false,
+            type: ['Office', 'Building'],
+            items_original: []
       }
     },
     computed: 
     {
-      formTitle () {
-        return this.typeInput === "new" ? 'Add Company' : 'Edit Company'
+      filteredItem(){
+        return this.items.filter(item =>
+        {
+          return item.title.toLowerCase().includes(this.search.toLowerCase()) ||
+          item.value.includes(this.search) ||
+          item.price.includes(this.search)
+        })
       },
     },
     methods: {
         getData(){
-            // var config = {
-            //     headers: {
-            //         Authorization: 'Bearer ' + localStorage.getItem('token')
-            //     }
-            // }             
-            
-            this.id_user = this.$session.get("id_user")
-            var uri = this.$apiUrl + '/company/readByUserId/' + this.id_user            
-            this.$http.get(uri).then(response => { 
-                if(response.data.message["msg"] === "Company tidak ditemukan"){
-                  this.companies = []
-                }else{
-                  this.companies = response.data.message
-                }
-            })               
+          this.items_original = this.items
         },
-        sendData(){  
-            // var config = {
-            //     headers: {
-            //         Authorization: 'Bearer ' + localStorage.getItem('token')
-            //     }
-            // }
-
-            this.company = new FormData()
-            this.company.append('id_user', this.id_user)
-            this.company.append('company_name', this.form.company_name);
-            this.company.append('address', this.form.address);
-            this.company.append('city', this.form.city);
-            this.company.append('province', this.form.province);
-            this.company.append('company_email', this.form.company_email);
-            this.company.append('phone_number', this.form.phone_number);
-            this.company.append('company_description', this.form.company_description);
-
-            var uri =this.$apiUrl + '/company'             
-            this.load = true             
-            this.$http.post(uri,this.company).then(response =>{               
-                this.snackbar = true; //mengaktifkan snackbar               
-                this.color = 'green'; //memberi warna snackbar               
-                this.text = response.data.message; //memasukkan pesan ke snackba r               
-                this.load = false;               
-                this.dialog = false               
-                this.getData(); //mengambil data user               
-                this.resetForm();           
-            }).catch(error =>{               
-                this.errors = error               
-                this.snackbar = true;               
-                this.text = 'Try Again';               
-                this.color = 'red';               
-                this.load = false;           
-            })         
-        }, 
-        updateData(){  
-            // var config = {
-            //     headers: {
-            //         Authorization: 'Bearer ' + localStorage.getItem('token')
-            //     }
-            // }
-
-            this.company = new FormData()
-            this.company.append('id_user', this.id_user)
-            this.company.append('company_name', this.form.company_name);
-            this.company.append('address', this.form.address);
-            this.company.append('city', this.form.city);
-            this.company.append('province', this.form.province);
-            this.company.append('company_email', this.form.company_email);
-            this.company.append('phone_number', this.form.phone_number);
-            this.company.append('company_description', this.form.company_description);
-
-            var uri =this.$apiUrl + '/company/' + this.form.id             
-            this.load = true             
-            this.$http.post(uri,this.company).then(response =>{               
-                this.snackbar = true; //mengaktifkan snackbar               
-                this.color = 'green'; //memberi warna snackbar               
-                this.text = response.data.message; //memasukkan pesan ke snackba r               
-                this.load = false;               
-                this.dialog = false               
-                this.getData(); //mengambil data user               
-                this.resetForm();           
-            }).catch(error =>{               
-                this.errors = error               
-                this.snackbar = true;               
-                this.text = 'Try Again';
-                this.color = 'red';               
-                this.load = false;           
-            })         
+        restoreData(){
+          this.items = this.items_original
         },
-        deleteData(id){  
-            // var config = {
-            //     headers: {
-            //         Authorization: 'Bearer ' + localStorage.getItem('token')
-            //     }
-            // }
-
-            this.confirmationDialog = false;
-            var uri =this.$apiUrl + '/company/' + id             
-            this.load = true             
-            this.$http.delete(uri).then(response =>{               
-                this.snackbar = true; //mengaktifkan snackbar               
-                this.color = 'green'; //memberi warna snackbar               
-                this.text = response.data.message; //memasukkan pesan ke snackba r               
-                this.load = false;               
-                this.dialog = false               
-                this.getData(); //mengambil data user               
-                this.resetForm();           
-            }).catch(error =>{               
-                this.errors = error               
-                this.snackbar = true;               
-                this.text = 'Try Again';
-                this.color = 'red';               
-                this.load = false;           
-            })
-        }, 
-        confirm(id){
-            this.id = id;
-            this.confirmationDialog = true;
-        },
-        editHandler(company){
-            this.dialog = true; 
-            this.typeInput = "edit";   
-            this.form.id = company.id;       
-            this.form.company_name = company.company_name;
-            this.form.address = company.address;
-            this.form.city = company.city;
-            this.form.province = company.province;
-            this.form.phone_number = company.phone_number;
-            this.form.company_email = company.company_email;
-            this.form.company_description = company.company_description;
-        },
-        setForm(){             
-            if (this.typeInput === 'new') {
-                this.sendData()             
-            }else{         
-                this.updateData()             
-            }
-        },
-        resetForm(){             
-            this.form = {                
-                company_name: '',
-                address: '', 
-                city: '', 
-                province: '',
-                company_email: '',
-                phone_number: '',
-                company_description: ''             
-            }         
+        detail(item){
+        this.$router.push(
+          {
+            name: 'OfficeDetail',
+            params: {id: item.id}
+          }
+        )
+      },
+      showOffice(){
+        this.restoreData()
+        var tempItems = []
+        for(var i=0; i<this.items.length; i++)
+        {
+          if(this.items[i].type === "Office"){
+            tempItems.push(this.items[i])
+          }
         }
+        this.items = tempItems
+      },
+      showBuilding(){
+        this.restoreData()
+        var tempItems = []
+        for(var i=0; i<this.items.length; i++)
+        {
+          if(this.items[i].type === "Building"){
+            tempItems.push(this.items[i])
+          }
+        }
+        this.items = tempItems
+      }
     },
     mounted(){         
         this.getData();     

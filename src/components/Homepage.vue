@@ -23,22 +23,23 @@
 
       
       <v-toolbar-items>
-        <v-btn text router to="/">Home</v-btn>
-        <v-btn text router to="/about">About</v-btn>
-        <v-btn text router to="/contact">Contact Us</v-btn>
-        <v-btn text router to="/gallery">Gallery</v-btn>
+        <v-btn text @click="home()">Home</v-btn>
+        <v-btn text @click="about()">About</v-btn>
+        <v-btn text @click="contact()">Contact Us</v-btn>
+        <v-btn text @click="gallery()">Gallery</v-btn>
         <v-btn text @click="signIn = true">Log In</v-btn>
         <v-btn text @click="signUp = true">Sign Up</v-btn>
       </v-toolbar-items>
     </v-app-bar>
 
-
     <v-content>
+      <router-view/>
       <v-carousel
         cycle
         height="800"
         hide-delimiter-background
-        show-arrows-on-hover>
+        show-arrows-on-hover
+        v-if="carusel">
       <v-carousel-item
         v-for="(item, i) in items"
         :src="item.src"
@@ -59,7 +60,7 @@
           <v-card>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="signIn = false">
+                <v-btn color="primary" text @click="resetForm()">
                   <v-icon>fas fa-window-close</v-icon>
                 </v-btn>
               </v-card-actions>  
@@ -120,7 +121,7 @@
           <v-card>         
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="signUp = false">
+                <v-btn color="primary" text @click="resetFormSignUp()">
                   <v-icon>fas fa-window-close</v-icon>
                 </v-btn>
               </v-card-actions> 
@@ -173,7 +174,7 @@
                               <v-text-field 
                                 label="Confirm Password*" 
                                 v-model="confirmPassword" 
-                                :rules="[() => !!formSignUp.confirmPassword || 'This field is required']" 
+                                :rules="[() => !!confirmPassword || 'This field is required']" 
                                 filled
                                 rounded
                                 dense
@@ -222,10 +223,10 @@
                   <div style="display: flex; flex-direction: column; width: 100%; margin-left: 5%;">
                     <p style="text-align: left; font-size: 20pt; font-weight: bold;
                         font-family:Varela Round; sans-serif;">ABOUT US</p>
-                    <p style="text-align: left">Website ini dibuat untuk Ujian Akhir Semester Pengembangan Aplikasi Web.
-                            Layanan website ini bermaksud untuk membantu freelancer dalam mencari pekerjaan.
-                            Pendaftaran gratis tanpa dipungut biaya.Berbagai proyek mulai dari IT,
-                            design, marketing, jasa penerjemahan, sampai jurnalistik.dll
+                    <p style="text-align: left">Lorem ipsum dolor sit amet, at aliquam vivendum vel, everti delicatissimi cu eos. 
+                        Dico iuvaret debitis mel an, et cum zril menandri. Eum in consul legimus accusam. Ea dico abhorreant duo, 
+                        quo illum minimum incorrupte no, nostro voluptaria sea eu. Suas eligendi ius at, 
+                        at nemore equidem est. Sed in error hendrerit, in consul constituam cum.
                     </p>
                 </div>
               </v-col>
@@ -236,13 +237,13 @@
                     <p style="text-align: left; font-size: 20pt; font-weight: bold;
                         font-family:Varela Round; sans-serif;">CONTACT US</p>
                     <p style="text-align: left">
-                        <span class="fas facebook fa-fw"></span>   lamiacasa
+                        <v-icon color="white">{{facebook}}</v-icon>   lamia.casa
                         <br/>
-                        <span class="fas fa-instagram fa-fw"></span>   @lamiacasa
+                        <v-icon color="white">{{instagram}}</v-icon>   @lamia_casa
                         <br/>
-                        <span class="fas fa-twitter fa-fw"></span>   @lamiacasa
+                        <v-icon color="white">{{twitter}}</v-icon>   @lamia_casa
                         <br/>
-                        <span class="fas fa-envelope fa-fw"></span>   lamiacasa@gmail.com
+                        <v-icon color="white">{{email}}</v-icon>   lamiacasa@gmail.com
                     </p>
                 </div>
               </v-col>
@@ -263,6 +264,11 @@
 </template>
 
 <script>
+import { mdiFacebookBox } from '@mdi/js'; 
+import { mdiInstagram  } from '@mdi/js';
+import { mdiTwitterBox  } from '@mdi/js';
+import { mdiEmail  } from '@mdi/js';
+
 export default {
   data () {
     return {
@@ -271,8 +277,13 @@ export default {
       snackbar: false,          
       color: null,         
       text: '',
+      carusel:true,
       load: false,
       errors: '',
+      facebook: mdiFacebookBox,
+      instagram: mdiInstagram,
+      twitter: mdiTwitterBox,
+      email: mdiEmail,
       formSignIn: {
         username: '',
         password: '',
@@ -328,7 +339,13 @@ export default {
         this.text = "Login Success !"
         this.load = false;               
         this.formSignIn = false
-        this.$router.push({name: "DashboardLayout"})
+        this.$router.push({name: "Market"})
+      }else{
+        this.snackbar = true;                
+        this.color = 'error'; 
+        this.text = "Login Failed !"
+        this.load = false;               
+        this.formSignIn = false
       }
     },
     userSignUp(){
@@ -346,6 +363,34 @@ export default {
         this.load = false;
       }   
     },
+    about(){
+       this.carusel=false
+       this.$router.push('/about')
+    },
+    contact(){
+       this.carusel=false
+       this.$router.push('/contact')
+    },
+    gallery(){
+       this.carusel=false
+       this.$router.push('/gallery')
+    },
+    home(){
+       this.carusel=true
+       this.$router.push('/')
+    },
+    resetForm(){
+      this.formSignIn.username = '',
+      this.formSignIn.password = '',
+      this.signIn = false;
+    },
+    resetFormSignUp(){
+      this.formSignUp.email = '',
+      this.formSignUp.username = '',
+      this.formSignUp.password = '',
+      this.confirmPassword = '',
+      this.signUp = false;
+    }
   }
 };
 </script>
