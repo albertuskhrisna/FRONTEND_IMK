@@ -162,3 +162,9 @@ import { mdiYoutube  } from '@mdi/js';
         }
     } 
 </script>
+<style>
+.bg {
+    height: 100% !important; 
+    background: url( '../assets/home.jpg') no-repeat center center;
+  }
+</style>
