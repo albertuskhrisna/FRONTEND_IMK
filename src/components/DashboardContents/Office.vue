@@ -136,7 +136,7 @@
             searchBy: '',
             icon: '',
             loading: false,
-            type: ['Office', 'Building'],
+            type: ['Mexico City','New Jersey','New York',"Washington D.C"],
             items_original: []
       }
     },
