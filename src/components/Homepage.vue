@@ -243,7 +243,7 @@
                         <br/>
                         <v-icon color="white">{{twitter}}</v-icon>   @lamia_casa
                         <br/>
-                        <v-icon color="white">{{email}}</v-icon>   lamiacasa@gmail.com
+                        <v-icon color="white">{{youtube}}</v-icon>   lamiacasa
                     </p>
                 </div>
               </v-col>
@@ -267,7 +267,7 @@
 import { mdiFacebookBox } from '@mdi/js'; 
 import { mdiInstagram  } from '@mdi/js';
 import { mdiTwitterBox  } from '@mdi/js';
-import { mdiEmail  } from '@mdi/js';
+import { mdiYoutube  } from '@mdi/js';
 
 export default {
   data () {
@@ -283,7 +283,7 @@ export default {
       facebook: mdiFacebookBox,
       instagram: mdiInstagram,
       twitter: mdiTwitterBox,
-      email: mdiEmail,
+      youtube: mdiYoutube,
       formSignIn: {
         username: '',
         password: '',
