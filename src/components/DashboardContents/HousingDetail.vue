@@ -78,10 +78,10 @@
                 <div class="text-left">{{items[id].price}}</div>
                 <div class="text-left" style="margin-top:2%">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim lobortis scelerisque fermentum dui faucibus in ornare. Purus viverra accumsan in nisl nisi. Varius morbi enim nunc faucibus a pellentesque sit amet porttitor. Lectus arcu bibendum at varius vel.</div>
                 <v-container>
-                    <v-btn text @click="detailSpecs()">
+                    <v-btn text @click="spesification=true">
                         <v-icon>mdi-arrow-right-drop-circle </v-icon> Detail Spesification 
                     </v-btn>
-                    <v-btn text @click="showAddress()">
+                    <v-btn text @click="map=true">
                         <v-icon>mdi-arrow-right-drop-circle </v-icon> Address & Location 
                     </v-btn>
                     <v-btn text @click="addToFav()">
@@ -89,7 +89,7 @@
                     </v-btn>
                 </v-container>
                 <v-container style="margin-top:10%">
-                    <v-btn @click="contactProperty()">Contact Property</v-btn>
+                    <v-btn @click="contact=true">Contact Property</v-btn>
                 </v-container>
           </v-container>
       </v-col>
@@ -108,6 +108,81 @@
             Close       
         </v-btn>     
     </v-snackbar>
+    <v-dialog
+    v-model="contact"
+    max-width="500px">
+        <v-card>
+            <v-card-actions>
+                <v-spacer/>
+                <v-btn color="primary" text @click="contact=false">
+                    <v-icon>fas fa-window-close</v-icon>
+                </v-btn>
+            </v-card-actions>
+            <v-card-text>
+                <p class="headline font-weight-bold text-center">Contact Property</p>
+            </v-card-text>
+            <v-img src="../../assets/chat.jpg" style="margin-left:20px;margin-right:30px;"></v-img>
+            <v-card-text>
+                <v-row>
+                    <v-col :cols="9">
+                        <v-text-field solo placeholder="Type Message"></v-text-field>
+                    </v-col>
+                    <v-col :cols="3">
+                        <v-btn class="primary">Send</v-btn>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+        </v-card>
+    </v-dialog>
+    <v-dialog
+    v-model="map"
+    max-width="500px">
+        <v-card>
+            <v-card-actions>
+                <v-spacer/>
+                <v-btn color="primary" text @click="map=false">
+                    <v-icon>fas fa-window-close</v-icon>
+                </v-btn>
+            </v-card-actions>
+            <v-card-text>
+                <p class="headline font-weight-bold text-center">Address & Location</p>
+                <p class="title">Address : </p>
+                <p class="subtitle" style="margin:10px">1021 Justin Ave, Glendale, CA 91201, United States</p>
+                <p class="title">Map : </p>
+            </v-card-text>
+            <v-img src="../../assets/map.png" style="margin-left:30px;margin-right:30px;"></v-img>
+            <v-card-title></v-card-title>
+        </v-card>
+    </v-dialog>
+    <v-dialog
+    v-model="spesification"
+    max-width="500px">
+        <v-card>
+            <v-card-actions>
+                <v-spacer/>
+                <v-btn color="primary" text @click="spesification=false">
+                    <v-icon>fas fa-window-close</v-icon>
+                </v-btn>
+            </v-card-actions>
+            <v-card-text>
+                <p class="headline font-weight-bold text-center">Detail Spesifications</p>
+                <p class="title">Facilities : </p>
+                <v-row>
+                    <v-col :cols="1"><v-icon>mdi-bed-double-outline</v-icon></v-col>
+                    <v-col :cols="11"><p class="subtitle">: 2 bedrooms</p></v-col>
+                    <v-col :cols="1"><v-icon>mdi-shower</v-icon></v-col>
+                    <v-col :cols="11"><p class="subtitle">: 1 bathroom</p></v-col>
+                    <v-col :cols="1"><v-icon>mdi-microwave</v-icon></v-col>
+                    <v-col :cols="11"><p class="subtitle">: Microwave</p></v-col>
+                    <v-col :cols="1"><v-icon>mdi-fridge</v-icon></v-col>
+                    <v-col :cols="11"><p class="subtitle">: Fridge</p></v-col>
+                </v-row>
+                <p class="title">Floor Plan : </p>
+            </v-card-text>
+            <v-img src="../../assets/map apartment.jpg" style="margin-left:30px;margin-right:30px;"></v-img>
+            <v-card-title></v-card-title>
+        </v-card>
+    </v-dialog>
 </v-container> 
 
 </template>
@@ -116,6 +191,9 @@
   export default {
     data () {
       return {
+            map:false,
+            spesification:false,
+            contact:false,
             items:
             [
                 {

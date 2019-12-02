@@ -394,3 +394,9 @@ export default {
   }
 };
 </script>
+<style>
+.bg {
+    height: 90% !important;
+    background: url( '../assets/home.jpg') no-repeat center center;
+  }
+</style>
