@@ -129,7 +129,7 @@
             icon: '',
             loading: false,
             items_original: [],
-            type: ['Housing']
+            type: ['Mexico City','New Jersey','New York',"Washington D.C"]
       }
     },
     computed: 
