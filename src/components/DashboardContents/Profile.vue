@@ -1,6 +1,4 @@
 <template>
-  <v-app>
-    <template>
       <v-container>        
         <v-row>  
           <v-col cols="2">
@@ -124,3 +122,9 @@ export default {
   }
 };
 </script>
+<style>
+.bg {
+    height: 100% !important; 
+    background: url( '../../assets/home.jpg') no-repeat center center;
+  }
+</style>
