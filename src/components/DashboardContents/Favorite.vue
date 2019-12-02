@@ -193,7 +193,7 @@
         ],
         search: '',
         searchBy: '',
-        type: ['Apartment','Penthouse','Office','Building','Housing'],
+        type: ['Mexico City','New Jersey','New York',"Washington D.C"],
         tempItems: [],
         items_original: []
       }

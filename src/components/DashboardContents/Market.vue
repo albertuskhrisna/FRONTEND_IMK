@@ -157,7 +157,7 @@
           ],
           search: '',
           searchBy: '',
-          type: ['Apartment and Penthouse','Office and Building','Housing']
+          type: ['Mexico City','New Jersey','New York',"Washington D.C"]
       }
     },
     computed: {
